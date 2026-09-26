@@ -1,0 +1,14 @@
+# Python environments
+.venv/
+*.pyc
+__pycache__/
+
+# C build artifacts
+build/
+
+# Local development docs
+CLAUDE.md
+TODO.md
+
+# Test data
+tests/data/
