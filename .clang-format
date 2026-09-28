@@ -1,0 +1,6 @@
+BasedOnStyle: Google
+IndentWidth: 4
+# Keep hand-formatted comments (format tables, indented lists) as written.
+ReflowComments: false
+# ColumnWidth: 120
+# AlignAfterOpenBracket: true
