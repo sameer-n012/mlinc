@@ -4,6 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+ * Checks a condition and aborts the program with an error message if the
+ * condition is false. The error message is printed to stderr and includes the
+ * file name and line number where the check failed.
+ */
 #define MLC_CHECK(cond, ...)                                            \
     do {                                                                \
         if (!(cond)) {                                                  \
@@ -14,6 +19,11 @@
         }                                                               \
     } while (0)
 
+/*
+ * Error codes returned by MLC functions. Functions that can fail return an
+ * mlc_status value, which is MLC_SUCCESS on success and a non-zero error code
+ * on failure.
+ */
 typedef enum {
     MLC_SUCCESS = 0,
     MLC_ERROR_INVALID_ARGUMENT,
@@ -23,6 +33,9 @@ typedef enum {
     MLC_ERROR_UNKNOWN,
 } mlc_status;
 
+/*
+ * Returns a string representation of the given mlc_status code.
+ */
 static inline const char* mlc_status_str(mlc_status status) {
     switch (status) {
         case MLC_SUCCESS:

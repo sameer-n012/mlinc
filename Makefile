@@ -2,7 +2,7 @@ ifeq ($(origin CC),default)
     CC := gcc-16
 endif
 
-CFLAGS := -std=c11 -Wall -Wextra -Werror -Wpedantic -Wshadow -Wconversion -Wstrict-prototypes -Iinclude -Iinclude/mlc -MMD -MP
+CFLAGS := -std=c11 -Wall -Wextra -Werror -Wpedantic -Wshadow -Wconversion -Wstrict-prototypes -Wmissing-prototypes -Iinclude -Iinclude/mlc -MMD -MP
 TEST_CFLAGS	:= -Itests/support
 
 CONFIG ?= debug
@@ -35,6 +35,9 @@ ifeq ($(ARCH),amd64)
 endif
 
 CUDA ?= 0
+
+SRCS_C := $(wildcard src/*/*.c)
+SRCS_H := $(wildcard src/*/*.h)
 
 TEST_SRCS := $(wildcard tests/*.c)
 TEST_PROGS := $(patsubst tests/%.c,build/$(CONFIG)/tests/%,$(TEST_SRCS))
@@ -71,8 +74,8 @@ test: $(TEST_PROGS)
 build/$(CONFIG)/tests:
 	@mkdir -p build/$(CONFIG)/tests
 
-build/$(CONFIG)/tests/%: tests/%.c $(TEST_SUPPORT_C) $(TEST_SUPPORT_H) | build/$(CONFIG)/tests
-	$(CC) $(CFLAGS) $(TEST_CFLAGS) $< $(TEST_SUPPORT_C) -o $@
+build/$(CONFIG)/tests/%: tests/%.c $(SRCS_C) $(SRCS_H) $(TEST_SUPPORT_C) $(TEST_SUPPORT_H) | build/$(CONFIG)/tests
+	$(CC) $(CFLAGS) $(TEST_CFLAGS) $< $(TEST_SUPPORT_C) $(SRCS_C) -o $@
 
 clean:
 	@echo "Cleaning up..."
