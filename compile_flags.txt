@@ -1,0 +1,12 @@
+-xc
+-std=c11
+-Wall
+-Wextra
+-Wpedantic
+-Wshadow
+-Wconversion
+-Wstrict-prototypes
+-Wmissing-prototypes
+-Iinclude
+-Isrc/core
+-Itests/support

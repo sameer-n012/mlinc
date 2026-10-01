@@ -4,7 +4,6 @@
 #include <stdlib.h>
 
 #include "device.h"
-#include "error.h"
 
 /*
  * Represents a contiguous block of memory that can be used to store data. The

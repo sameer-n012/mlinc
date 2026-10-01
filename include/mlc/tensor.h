@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 #include "dtype.h"
-#include "error.h"
 #include "storage.h"
 
 #define MLC_MAX_DIMS 8

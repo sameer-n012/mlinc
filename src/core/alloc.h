@@ -2,7 +2,6 @@
 #define MLC_ALLOC_H
 
 #include "mlc/device.h"
-#include "mlc/error.h"
 #include <stdlib.h>
 
 #define MLC_ALIGN_BLOCK 64
