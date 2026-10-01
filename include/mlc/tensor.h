@@ -19,45 +19,46 @@
  */
 typedef struct {
     mlc_storage* data;
-    size_t offset;
-    size_t shape[MLC_MAX_DIMS];
-    size_t strides[MLC_MAX_DIMS];
+    int64_t offset;
+    int64_t shape[MLC_MAX_DIMS];
+    int64_t strides[MLC_MAX_DIMS];
     mlc_dtype dtype;
-    size_t ndim;
+    int64_t ndim;
     bool requires_grad;
     void* grad;
     void* autograd_node;
 } mlc_tensor;
 
-mlc_tensor* mlc_empty(size_t* shape, size_t ndim, mlc_dtype dtype);
-mlc_tensor* mlc_zeros(size_t* shape, size_t ndim, mlc_dtype dtype);
-mlc_tensor* mlc_ones(size_t* shape, size_t ndim, mlc_dtype dtype);
-mlc_tensor* mlc_full(size_t* shape, size_t ndim, mlc_dtype dtype, void* value);
-mlc_tensor* mlc_from_data(const void* src, size_t* shape, size_t ndim,
+mlc_tensor* mlc_empty(const int64_t* shape, int64_t ndim, mlc_dtype dtype);
+mlc_tensor* mlc_zeros(const int64_t* shape, int64_t ndim, mlc_dtype dtype);
+mlc_tensor* mlc_ones(const int64_t* shape, int64_t ndim, mlc_dtype dtype);
+mlc_tensor* mlc_full(const int64_t* shape, int64_t ndim, mlc_dtype dtype,
+                     double value);
+mlc_tensor* mlc_from_data(const void* src, const int64_t* shape, int64_t ndim,
                           mlc_dtype dtype);
 mlc_tensor* mlc_arange(double start, double end, double step, mlc_dtype dtype);
 
 void mlc_tensor_free(mlc_tensor* tensor);
-size_t mlc_tensor_numel(const mlc_tensor* tensor);
+int64_t mlc_tensor_numel(const mlc_tensor* tensor);
 bool mlc_is_contiguous(const mlc_tensor* tensor);
 void* mlc_tensor_data(const mlc_tensor* tensor);
 
-mlc_tensor* mlc_view(mlc_tensor* tensor, size_t* shape, size_t ndim);
-mlc_tensor* mlc_reshape(mlc_tensor* tensor, size_t* shape, size_t ndim);
-mlc_tensor* mlc_permute(mlc_tensor* tensor, const size_t* dims);
-mlc_tensor* mlc_transpose(mlc_tensor* tensor, size_t dim0, size_t dim1);
-mlc_tensor* mlc_slice(mlc_tensor* tensor, size_t dim, size_t start, size_t end,
-                      size_t step);
-mlc_tensor* mlc_expand(mlc_tensor* tensor, size_t* shape, size_t ndim);
-mlc_tensor* mlc_squeeze(mlc_tensor* tensor, size_t dim);
-mlc_tensor* mlc_unsqueeze(mlc_tensor* tensor, size_t dim);
+mlc_tensor* mlc_view(mlc_tensor* tensor, const int64_t* shape, int64_t ndim);
+mlc_tensor* mlc_reshape(mlc_tensor* tensor, const int64_t* shape, int64_t ndim);
+mlc_tensor* mlc_permute(mlc_tensor* tensor, const int64_t* dims);
+mlc_tensor* mlc_transpose(mlc_tensor* tensor, int64_t dim0, int64_t dim1);
+mlc_tensor* mlc_slice(mlc_tensor* tensor, int64_t dim, int64_t start,
+                      int64_t end, int64_t step);
+mlc_tensor* mlc_expand(mlc_tensor* tensor, const int64_t* shape, int64_t ndim);
+mlc_tensor* mlc_squeeze(mlc_tensor* tensor, int64_t dim);
+mlc_tensor* mlc_unsqueeze(mlc_tensor* tensor, int64_t dim);
 
 mlc_tensor* mlc_contiguous(mlc_tensor* tensor);
 mlc_tensor* mlc_clone(mlc_tensor* tensor);
 
-bool mlc_broadcast_shapes(const size_t* shape1, size_t ndim1,
-                          const size_t* shape2, size_t ndim2, size_t* out_shape,
-                          size_t* out_ndim);
+bool mlc_broadcast_shapes(const int64_t* shape1, int64_t ndim1,
+                          const int64_t* shape2, int64_t ndim2,
+                          int64_t* out_shape, int64_t* out_ndim);
 
 void mlc_print(const mlc_tensor* tensor);
 

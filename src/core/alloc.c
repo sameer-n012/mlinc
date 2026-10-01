@@ -2,8 +2,8 @@
 
 #include <stdlib.h>
 
-#include "device.h"
-#include "error.h"
+#include "mlc/device.h"
+#include "mlc/error.h"
 
 /*
  * Allocates memory on the specified device. For CPU, it uses aligned_alloc to

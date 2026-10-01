@@ -1,10 +1,10 @@
-#include "storage.h"
+#include "mlc/storage.h"
 
 #include <stdlib.h>
 
 #include "alloc.h"
-#include "device.h"
-#include "error.h"
+#include "mlc/device.h"
+#include "mlc/error.h"
 
 /*
  * Creates a new storage with the specified size in bytes and device. The
@@ -51,9 +51,8 @@ void mlc_storage_release(mlc_storage* storage) {
         return;
     }
 
-    if (storage->ref_count <= 0) {
-        MLC_ERROR("mlc_storage reference count is already zero");
-    }
+    MLC_CHECK(storage->ref_count > 0,
+              "mlc_storage reference count is already zero");
 
     storage->ref_count--;
     if (storage->ref_count == 0) {

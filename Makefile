@@ -2,7 +2,7 @@ ifeq ($(origin CC),default)
     CC := gcc-16
 endif
 
-CFLAGS := -std=c11 -Wall -Wextra -Werror -Wpedantic -Wshadow -Wconversion -Wstrict-prototypes -Wmissing-prototypes -Iinclude -Iinclude/mlc -MMD -MP
+CFLAGS := -std=c11 -Wall -Wextra -Werror -Wpedantic -Wshadow -Wconversion -Wstrict-prototypes -Wmissing-prototypes -Iinclude -MMD -MP
 TEST_CFLAGS	:= -Itests/support
 
 CONFIG ?= debug

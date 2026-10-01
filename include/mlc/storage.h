@@ -21,6 +21,5 @@ typedef struct {
 mlc_storage* mlc_storage_new(size_t size, mlc_device device);
 void mlc_storage_retain(mlc_storage* storage);
 void mlc_storage_release(mlc_storage* storage);
-mlc_storage* mlc_to(mlc_storage* storage, mlc_device device);
 
 #endif
