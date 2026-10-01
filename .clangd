@@ -1,0 +1,7 @@
+# clangd configuration (clangd only reads YAML here).
+# When clangd opens a header by itself, every `static inline` helper in it
+# looks unused. Turn that warning off for headers only; .c files keep it.
+If:
+  PathMatch: .*\.h
+CompileFlags:
+  Add: [-Wno-unused-function]

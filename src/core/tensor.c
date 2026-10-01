@@ -158,14 +158,14 @@ mlc_tensor* mlc_ones(const int64_t* shape, int64_t ndim, mlc_dtype dtype) {
  * CPU by default.
  */
 mlc_tensor* mlc_full(const int64_t* shape, int64_t ndim, mlc_dtype dtype,
-                     double value) {
+                     float value) {
     mlc_tensor* tensor = mlc_new_view(shape, ndim, dtype, 0, NULL);
     if (tensor == NULL) {
         return NULL;
     }
     int64_t numel = mlc_numel(shape, ndim);
     for (int64_t i = 0; i < numel; ++i) {
-        ((float*)tensor->data->data)[i] = (float)value;
+        ((float*)tensor->data->data)[i] = value;
     }
     return tensor;
 }
@@ -208,6 +208,61 @@ mlc_tensor* mlc_arange(double start, double end, double step, mlc_dtype dtype) {
     float* data = (float*)tensor->data->data;
     for (int64_t i = 0; i < numel; ++i) {
         data[i] = (float)(start + (double)i * step);
+    }
+    return tensor;
+}
+
+/*
+ * Creates a new tensor with random values in the range [min, max). It has the
+ * specified shape, number of dimensions. The tensor is
+ * allocated on the CPU by default. The random values are generated using
+ * the provided random number generator.
+ */
+mlc_tensor* mlc_rand(mlc_rng* rng, const int64_t* shape, int64_t ndim,
+                     float min, float max) {
+    MLC_CHECK(rng != NULL, "mlc_rng is NULL");
+    MLC_CHECK(min < max, "min must be less than max for mlc_rand");
+
+    if (max == min) {
+        return mlc_full(shape, ndim, MLC_F32, min);
+    }
+
+    mlc_tensor* tensor = mlc_new_view(shape, ndim, MLC_F32, 0, NULL);
+    if (tensor == NULL) {
+        return NULL;
+    }
+    int64_t numel = mlc_numel(shape, ndim);
+    float* data = (float*)tensor->data->data;
+    for (int64_t i = 0; i < numel; ++i) {
+        float u = min + (max - min) * (float)mlc_rng_randu(rng);
+        if (u >= max) {
+            u = nextafterf(max, min);
+        }
+        data[i] = u;
+    }
+    return tensor;
+}
+
+/*
+ * Creates a new tensor with random values drawn from the normal distribution
+ * with mean mu and standard deviation sigma. It has the specified shape,
+ * number of dimensions. The tensor is allocated on the CPU by
+ * default. The random values are generated using the provided random number
+ * generator.
+ */
+mlc_tensor* mlc_randn(mlc_rng* rng, const int64_t* shape, int64_t ndim,
+                      float mu, float sigma) {
+    MLC_CHECK(rng != NULL, "mlc_rng is NULL");
+    MLC_CHECK(sigma > 0.0f, "sigma must be positive for mlc_randn");
+
+    mlc_tensor* tensor = mlc_new_view(shape, ndim, MLC_F32, 0, NULL);
+    if (tensor == NULL) {
+        return NULL;
+    }
+    int64_t numel = mlc_numel(shape, ndim);
+    float* data = (float*)tensor->data->data;
+    for (int64_t i = 0; i < numel; ++i) {
+        data[i] = mu + sigma * (float)mlc_rng_randn(rng);
     }
     return tensor;
 }

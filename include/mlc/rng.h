@@ -46,16 +46,18 @@ static inline uint64_t mlc_rng_next(mlc_rng* rng) {
 	return result;
 }
 
-static inline double mlc_randu(mlc_rng* rng) {
-    return (mlc_rng_next(rng) >> 11) * (1.0 / 9007199254740992.0);
+static inline double mlc_rng_randu(mlc_rng* rng) {
+    // safe conversion to double since the maximum value of mlc_rng_next is
+    // 2^64 - 1 and 2^64 >> 11 = 2^53, the max value of a double.
+    return (double) (mlc_rng_next(rng) >> 11) * (1.0 / 9007199254740992.0);
 }
 
-static inline double mlc_randn(mlc_rng* rng) {
-    double u1 = mlc_randu(rng);
+static inline double mlc_rng_randn(mlc_rng* rng) {
+    double u1 = mlc_rng_randu(rng);
     while (u1 == 0.0) {
-        u1 = mlc_randu(rng);
+        u1 = mlc_rng_randu(rng);
     }
-    double u2 = mlc_randu(rng);
+    double u2 = mlc_rng_randu(rng);
     return sqrt(-2.0 * log(u1)) * cos(2.0 * MLC_PI * u2);
 }
 

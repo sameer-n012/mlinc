@@ -6,6 +6,7 @@
 
 #include "dtype.h"
 #include "storage.h"
+#include "mlc/rng.h"
 
 #define MLC_MAX_DIMS 8
 
@@ -32,10 +33,12 @@ mlc_tensor* mlc_empty(const int64_t* shape, int64_t ndim, mlc_dtype dtype);
 mlc_tensor* mlc_zeros(const int64_t* shape, int64_t ndim, mlc_dtype dtype);
 mlc_tensor* mlc_ones(const int64_t* shape, int64_t ndim, mlc_dtype dtype);
 mlc_tensor* mlc_full(const int64_t* shape, int64_t ndim, mlc_dtype dtype,
-                     double value);
+                     float value);
 mlc_tensor* mlc_from_data(const void* src, const int64_t* shape, int64_t ndim,
                           mlc_dtype dtype);
 mlc_tensor* mlc_arange(double start, double end, double step, mlc_dtype dtype);
+mlc_tensor* mlc_rand(mlc_rng* rng, const int64_t* shape, int64_t ndim, float min, float max);
+mlc_tensor* mlc_randn(mlc_rng* rng, const int64_t* shape, int64_t ndim, float mu, float sigma);
 
 void mlc_tensor_free(mlc_tensor* tensor);
 int64_t mlc_tensor_numel(const mlc_tensor* tensor);

@@ -183,6 +183,7 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "pyright" },
+    { name = "randomgen" },
 ]
 
 [package.metadata]
@@ -193,7 +194,10 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "pyright", specifier = ">=1.1.414" }]
+dev = [
+    { name = "pyright", specifier = ">=1.1.414" },
+    { name = "randomgen", specifier = ">=2.3.0" },
+]
 
 [[package]]
 name = "mpmath"
@@ -458,6 +462,47 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/e1/1b/244c7b710031ada80f27e579ec20d28a2285dfc318fed0339866b1047f12/pyright-1.1.414.tar.gz", hash = "sha256:523c0a97c60da6333234955c277730c9cf4f5bd6d5399e7b7d2b0fc5d3599524", size = 4154638, upload-time = "2026-09-10T12:26:53.181Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d7/ba/18b6e682ead424ad24bcc134339ae5d1b931cd9ae260540592a058a91279/pyright-1.1.414-py3-none-any.whl", hash = "sha256:2a6b4b3298c9eec174c5ed83bd338de6eee82df2992f3e1930e6199d381be36f", size = 6225049, upload-time = "2026-09-10T12:26:51.427Z" },
+]
+
+[[package]]
+name = "randomgen"
+version = "2.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/67/6f/18e8db0f28b1a8fd5e8e4f34b0766a3181f72e5982963303b765e9eb456f/randomgen-2.3.0.tar.gz", hash = "sha256:e0de65d79e1346ac406b51df49a79b9e3d8b41a8a1a8e5de088c2fb49b8c89cc", size = 1571005, upload-time = "2025-10-22T16:05:26.742Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/21/f2/779431255926d2a0612fe8237feeff7119281d1622784395948a56e4ba67/randomgen-2.3.0-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:14fa64b9ad5d12665a084d510a3089f6aa6bda3b3bcfd49dfb2aef5e05aa696f", size = 3215987, upload-time = "2025-10-22T16:05:33.251Z" },
+    { url = "https://files.pythonhosted.org/packages/c1/6f/0baf7d9c0a6a3da24f8d5eb4b9704bb7fd758220a8aaa845b080b9cacde1/randomgen-2.3.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:d0eefa757429b95058246476c65ce851d5be6be771609428802752a171eabdb9", size = 3152964, upload-time = "2025-10-22T16:07:11.941Z" },
+    { url = "https://files.pythonhosted.org/packages/f4/d8/54c2f96c96babb0210f94bc53524de9cdff40e8e3e5c844875d2dd126c3a/randomgen-2.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:dfed9c83475ffa76b560dbc9b9c2f04045761c4ee64ac4ed4f035f0ac504ce49", size = 3393344, upload-time = "2025-10-22T16:22:48.121Z" },
+    { url = "https://files.pythonhosted.org/packages/bf/0f/821733e6797e046b90c7096e3c30e42e4d474d83da6a47aa2131f38f7863/randomgen-2.3.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:3b48b241696bbbcdc116868301792f7d6b295666f3c545c1c6a67bd801144d97", size = 3505943, upload-time = "2025-10-22T16:22:50.423Z" },
+    { url = "https://files.pythonhosted.org/packages/3f/70/db64c28365da9bd92b4b67912e4cdaae59bcc17000a928790993b1963b62/randomgen-2.3.0-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:01d370b2c567d1f48096639e22b1af4d32e20add27bfed0ea0844dbaf386987b", size = 3518652, upload-time = "2025-10-22T16:22:52.821Z" },
+    { url = "https://files.pythonhosted.org/packages/a9/bd/cb302163908311dcefcf8f3e2df71c391a2c21dfc070efae78b497bfe835/randomgen-2.3.0-cp312-cp312-win_amd64.whl", hash = "sha256:95b431ef9058be63bcefac20350f265c7d74910bb8c516a731aa2805f20e9025", size = 3084386, upload-time = "2025-10-22T16:05:25.449Z" },
+    { url = "https://files.pythonhosted.org/packages/0d/8b/37df1dbaffe9a699996d0b1c78091fb0c904ea05f56dfeabf9c86d57755a/randomgen-2.3.0-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:49e4adec01a3945b965764027c2a2881789372339e10f8fbcc37b0b19fe7af6f", size = 3187151, upload-time = "2025-10-22T16:04:16.698Z" },
+    { url = "https://files.pythonhosted.org/packages/5f/8c/e281a9c42185690925408b2d0f585d09e3bdc481230b085a02b7c216288b/randomgen-2.3.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:200d5601f5d8b34803346b5a338f2448258034340794c8eafe6c84965a1ff6b6", size = 3126458, upload-time = "2025-10-22T16:09:04.086Z" },
+    { url = "https://files.pythonhosted.org/packages/ed/34/f96dd046d0d125ecd3a98381bb1b0ebb2a8c7b11d473721b5ec4d9195b14/randomgen-2.3.0-cp313-cp313-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:87174c77a2e568d1e1a4e8a391c3ac4e1a6bedca1ccea687acffca85df30cece", size = 3376421, upload-time = "2025-10-22T16:21:54.099Z" },
+    { url = "https://files.pythonhosted.org/packages/90/c4/753586c9d02c49340c2e0364017e0f6ef3dd498d63f4a18305abb359e47f/randomgen-2.3.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:4152a162834b7e21bc54acefd2607a8c574e23efa6cbff8dd8ff91d438993bc9", size = 3493490, upload-time = "2025-10-22T16:21:56.873Z" },
+    { url = "https://files.pythonhosted.org/packages/38/87/106047a24503d4dc674245aa656d892f418df69fad29178c6748aef64d93/randomgen-2.3.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:b2cb59bd0ff4fee020fbeb23aea90614e5a860f98a055e65d89bcb34563819e8", size = 3508400, upload-time = "2025-10-22T16:21:57.972Z" },
+    { url = "https://files.pythonhosted.org/packages/aa/c9/3580decaef2f0c85c0d6dd03be193c00eaf869fcbb566ef1a54fe792cf28/randomgen-2.3.0-cp313-cp313-win_amd64.whl", hash = "sha256:1ad97869557c8a95327e23f153911faaecf517c6b91496a695f56a4f4acb06d7", size = 3068579, upload-time = "2025-10-22T16:05:10.92Z" },
+    { url = "https://files.pythonhosted.org/packages/de/3d/b29d3b184a3c95207c4d143fafb485ece30f4411e3a2e76207121f98d809/randomgen-2.3.0-cp313-cp313t-macosx_10_13_x86_64.whl", hash = "sha256:f86bea56d27d1d5a17ec0b0ec836c8ffee904eb6043e2085a5be23975c4ec063", size = 3292287, upload-time = "2025-10-30T18:14:06.549Z" },
+    { url = "https://files.pythonhosted.org/packages/ba/27/8637ce453ac66aabc3bcd9c40ab9d5b6e303ea955515c66388ed735cfb98/randomgen-2.3.0-cp313-cp313t-macosx_11_0_arm64.whl", hash = "sha256:f200d38d943769d06d0f9cfd95d6b64900c40dc8cac9c156cbaa9e923b7116b3", size = 3263460, upload-time = "2025-10-30T18:03:12.397Z" },
+    { url = "https://files.pythonhosted.org/packages/81/7f/611adb407e78a5cd6f133ad5131a366a12cd048ad67f55dec8ea9f8350f0/randomgen-2.3.0-cp313-cp313t-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:f0a1dcf07ee3656ef6c5522109c33a0d629b897feb86a76d3581aef402ea2b4a", size = 3436725, upload-time = "2025-10-30T18:25:21.76Z" },
+    { url = "https://files.pythonhosted.org/packages/54/67/766f890eab1e1fc79515d3a09b9c6ea1100af87b79c61370d845cc847441/randomgen-2.3.0-cp313-cp313t-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:4f2240baaff6828fa5d782195aaf354c7e5d6723ee030ac9b189d21e0f9c9ade", size = 3517277, upload-time = "2025-10-30T18:25:23.822Z" },
+    { url = "https://files.pythonhosted.org/packages/8b/cf/785ce688d56ef89cd271ee08a8a7e43c9c4c8c4f65c59a1e1a58c3c961e5/randomgen-2.3.0-cp313-cp313t-musllinux_1_2_x86_64.whl", hash = "sha256:e71078ef724a8760323c70bb41c69e96e878eb3f581b9ddd466deb6d8e52a614", size = 3538361, upload-time = "2025-10-30T18:25:25.38Z" },
+    { url = "https://files.pythonhosted.org/packages/8d/e5/1cc7f7dffb40d9ddb071e4a55f05a63f05eb954f63173c42b49c332f442a/randomgen-2.3.0-cp313-cp313t-win_amd64.whl", hash = "sha256:99acabb58a6f035fff441c787575a39d2a7d9be8f77903399b624034f7f34913", size = 3286213, upload-time = "2025-10-30T18:04:46.846Z" },
+    { url = "https://files.pythonhosted.org/packages/46/ba/261d1ee85ccc350d77b310f300677a01c6c570b941dba78701a7e442f807/randomgen-2.3.0-cp314-cp314-macosx_10_15_x86_64.whl", hash = "sha256:dff36e8f78b99594e7d36e63b7f0d6859cd6e86b1783d2ca728435bd9f491864", size = 3189640, upload-time = "2025-10-22T16:05:26.842Z" },
+    { url = "https://files.pythonhosted.org/packages/db/50/bac6baf35f0d6d38a97203034d343a285d183836849eb5fb26cc25b2dde1/randomgen-2.3.0-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:20864c1be4ae718ac90442dd120e8421ed0450284e32d5adea3f2464bdb1a2d7", size = 3137152, upload-time = "2025-10-22T16:08:45.604Z" },
+    { url = "https://files.pythonhosted.org/packages/45/41/4fddcf96c6e507d6b22eb9e1795173c149fa3c71d061e801bd666bc59f42/randomgen-2.3.0-cp314-cp314-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:98778cb0d92a5118f1b14b7fd98dae8fc1f9484e1108e2d612078c94e48dd088", size = 3397835, upload-time = "2025-10-22T16:21:12.178Z" },
+    { url = "https://files.pythonhosted.org/packages/47/c9/f1aafbbd11443369b33fd3a1fb3418fd8d59d229cdde3a755014eeedd38e/randomgen-2.3.0-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:af34dc564b6b4f7288844aca8a6382a049b9605f0c6fcac55b9a5ac78f870164", size = 3496210, upload-time = "2025-10-22T16:21:13.623Z" },
+    { url = "https://files.pythonhosted.org/packages/c4/a1/46568043601bb41dd8002bf4f99112da5f28e4b3485bd7c8c101fe5b4dd4/randomgen-2.3.0-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:acdce1f527d85a7b878fd31ba92f969cc7a0ce901c33a42bf953caabbddb9986", size = 3514345, upload-time = "2025-10-22T16:21:15.002Z" },
+    { url = "https://files.pythonhosted.org/packages/15/e3/91991f66e6c7ce554f4198f283493876b92b52a4fd5e1398e965d0741ae7/randomgen-2.3.0-cp314-cp314-win_amd64.whl", hash = "sha256:9f973023a471c6ace8190832b085089e9120222843929b5de3e099ef66b7bc9b", size = 3059941, upload-time = "2025-10-22T16:04:38.516Z" },
+    { url = "https://files.pythonhosted.org/packages/0e/0b/7756ebdbfde75bb418e12c4ba18ea2bfbc80ee5d41b5997262caa0790e74/randomgen-2.3.0-cp314-cp314t-macosx_10_15_x86_64.whl", hash = "sha256:d939fc33e7795e665010a6517825944ce2d199d9cafd369738c841ff1180ff6c", size = 3293323, upload-time = "2025-10-22T16:11:13.076Z" },
+    { url = "https://files.pythonhosted.org/packages/e5/e5/c2c49412da5aa46645b95218dbee288fc1594670142983a424ddc6f952a2/randomgen-2.3.0-cp314-cp314t-macosx_11_0_arm64.whl", hash = "sha256:4584296fd09bcb8012adb602031fd152b2304489708579aa7b83e639f07f00a4", size = 3263952, upload-time = "2025-10-22T16:09:48.805Z" },
+    { url = "https://files.pythonhosted.org/packages/99/e5/6ca15ce9c0f6e432bfc755a6451243bb9048490930bd9399b3ddd1eaca6e/randomgen-2.3.0-cp314-cp314t-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:cddae752966b38d0cbdcc9a8dd9dfd5d8a7f4716f2d10c1394bf4447e7763a06", size = 3435789, upload-time = "2025-10-22T16:24:25.686Z" },
+    { url = "https://files.pythonhosted.org/packages/60/58/37e838951ea1496203bbda43fc01cb641e2e043269756dafd3fa120122bc/randomgen-2.3.0-cp314-cp314t-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:92804f15e33c488bf5c7ce941d73957ab6d8c22e307709611ce579b96054045c", size = 3515333, upload-time = "2025-10-22T16:24:27.645Z" },
+    { url = "https://files.pythonhosted.org/packages/bb/aa/3bc0b472777b2e569e35ce138cbf2b7b6919c212829dd9606f2e0095f40f/randomgen-2.3.0-cp314-cp314t-musllinux_1_2_x86_64.whl", hash = "sha256:2892cddfb72d48b5360dc16294cc1478a890e40c98bc2c1084843f4bd4a60d6f", size = 3536579, upload-time = "2025-10-22T16:24:29.497Z" },
+    { url = "https://files.pythonhosted.org/packages/58/f1/d9c77f3cd98b98f712384bd0de079ac7a1dc745e10f3bb3861012a3eb3f6/randomgen-2.3.0-cp314-cp314t-win_amd64.whl", hash = "sha256:aa714963f4d6bf6e9291cb1a69dc2e1dea512daa377bc7668a062cb11c3bd20a", size = 3329694, upload-time = "2025-10-22T16:05:35.572Z" },
 ]
 
 [[package]]
