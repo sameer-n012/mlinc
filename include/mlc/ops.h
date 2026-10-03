@@ -51,8 +51,8 @@ mlc_tensor* mlc_mean(const mlc_tensor* a, int64_t dim, bool keepdim);
 mlc_tensor* mlc_median(const mlc_tensor* a, int64_t dim, bool keepdim);
 mlc_tensor* mlc_max(const mlc_tensor* a, int64_t dim, bool keepdim);
 mlc_tensor* mlc_min(const mlc_tensor* a, int64_t dim, bool keepdim);
-int64_t* mlc_argmax(const mlc_tensor* a, int64_t dim, bool keepdim);
-int64_t* mlc_argmin(const mlc_tensor* a, int64_t dim, bool keepdim);
+mlc_tensor* mlc_argmax(const mlc_tensor* a, int64_t dim, bool keepdim);
+mlc_tensor* mlc_argmin(const mlc_tensor* a, int64_t dim, bool keepdim);
 
 // Reduction Ops (Multiple dimensions)
 mlc_tensor* mlc_sum_(const mlc_tensor* a, const int64_t* dims, int64_t ndims, bool keepdim);
