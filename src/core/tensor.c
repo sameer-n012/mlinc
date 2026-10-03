@@ -620,6 +620,33 @@ bool mlc_broadcast_shapes(const int64_t* shape1, int64_t ndim1,
 }
 
 /*
+ * Checks if two tensors have the same layout, i.e., the same shape and strides.
+ * Returns true if they match, false otherwise.
+ */
+bool mlc_layouts_match(const mlc_tensor* a, const mlc_tensor* b) {
+    MLC_CHECK(a != NULL, "mlc_tensor a is NULL");
+    MLC_CHECK(b != NULL, "mlc_tensor b is NULL");
+    if (a->ndim != b->ndim) {
+        return false;
+    }
+    for (int64_t i = 0; i < a->ndim; ++i) {
+        if (a->shape[i] != b->shape[i] || a->strides[i] != b->strides[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/*
+ * Checks if the given tensor is a scalar, i.e., it has zero dimensions or one
+ * dimension with size 1. Returns true if it is a scalar, false otherwise.
+ */
+bool mlc_is_scalar(const mlc_tensor* tensor) {
+    MLC_CHECK(tensor != NULL, "mlc_tensor is NULL");
+    return mlc_tensor_numel(tensor) == 1;
+}
+
+/*
  * Prints the details of the given tensor, including its shape, data type,
  * values, and device.
  */

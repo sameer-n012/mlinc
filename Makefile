@@ -4,6 +4,7 @@ endif
 
 CFLAGS := -std=c11 -Wall -Wextra -Werror -Wpedantic -Wshadow -Wconversion -Wstrict-prototypes -Wmissing-prototypes -Iinclude -MMD -MP
 TEST_CFLAGS	:= -Itests/support
+LDLIBS := -lm
 
 CONFIG ?= debug
 
@@ -75,7 +76,7 @@ build/$(CONFIG)/tests:
 	@mkdir -p build/$(CONFIG)/tests
 
 build/$(CONFIG)/tests/%: tests/%.c $(SRCS_C) $(SRCS_H) $(TEST_SUPPORT_C) $(TEST_SUPPORT_H) | build/$(CONFIG)/tests
-	$(CC) $(CFLAGS) $(TEST_CFLAGS) $< $(TEST_SUPPORT_C) $(SRCS_C) -o $@
+	$(CC) $(CFLAGS) $(TEST_CFLAGS) $< $(TEST_SUPPORT_C) $(SRCS_C) $(LDLIBS) -o $@
 
 clean:
 	@echo "Cleaning up..."

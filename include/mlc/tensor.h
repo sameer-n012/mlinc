@@ -61,6 +61,8 @@ mlc_tensor* mlc_clone(mlc_tensor* tensor);
 bool mlc_broadcast_shapes(const int64_t* shape1, int64_t ndim1,
                           const int64_t* shape2, int64_t ndim2,
                           int64_t* out_shape, int64_t* out_ndim);
+bool mlc_layouts_match(const mlc_tensor* a, const mlc_tensor* b);
+bool mlc_is_scalar(const mlc_tensor* tensor);
 
 void mlc_print(const mlc_tensor* tensor);
 
