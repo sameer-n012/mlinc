@@ -1,7 +1,8 @@
 #ifndef MLC_KERNEL_H
 #define MLC_KERNEL_H
 
-#include "stdint.h"
+#include <stdint.h>
+#include <stdbool.h>
 #include "mlc/tensor.h"
 
 // Row-wise function pointer types for unary and binary operations on tensors

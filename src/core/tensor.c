@@ -455,7 +455,8 @@ mlc_tensor* mlc_slice(mlc_tensor* tensor, int64_t dim, int64_t start,
  * of the original tensor. The new shape must be compatible with broadcasting
  * rules.
  */
-mlc_tensor* mlc_expand(mlc_tensor* tensor, const int64_t* shape, int64_t ndim) {
+mlc_tensor* mlc_expand(const mlc_tensor* tensor, const int64_t* shape,
+                       int64_t ndim) {
     MLC_CHECK(tensor != NULL, "mlc_tensor is NULL");
     MLC_CHECK(ndim >= tensor->ndim,
               "Expanded number of dimensions cannot be less than original");

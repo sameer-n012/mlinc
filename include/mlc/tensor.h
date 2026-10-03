@@ -51,7 +51,7 @@ mlc_tensor* mlc_permute(mlc_tensor* tensor, const int64_t* dims);
 mlc_tensor* mlc_transpose(mlc_tensor* tensor, int64_t dim0, int64_t dim1);
 mlc_tensor* mlc_slice(mlc_tensor* tensor, int64_t dim, int64_t start,
                       int64_t end, int64_t step);
-mlc_tensor* mlc_expand(mlc_tensor* tensor, const int64_t* shape, int64_t ndim);
+mlc_tensor* mlc_expand(const mlc_tensor* tensor, const int64_t* shape, int64_t ndim);
 mlc_tensor* mlc_squeeze(mlc_tensor* tensor, int64_t dim);
 mlc_tensor* mlc_unsqueeze(mlc_tensor* tensor, int64_t dim);
 

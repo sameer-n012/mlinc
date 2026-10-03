@@ -1,5 +1,6 @@
+#include <math.h>
+
 #include "kernel.h"
-#include "math.h"
 #include "mlc/ops.h"
 #include "mlc/tensor.h"
 
@@ -80,30 +81,30 @@ mlc_tensor* mlc_gelu(const mlc_tensor* tensor) {
  * Applies the tanh activation function to the input tensor in-place
  */
 mlc_status mlc_tanh_(mlc_tensor* tensor) {
-    mlc_apply_unary_inplace(tensor, mcl_tanh_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_unary_inplace(tensor, mcl_tanh_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }
 
 /*
  * Applies the sigmoid activation function to the input tensor in-place
  */
 mlc_status mlc_sigmoid_(mlc_tensor* tensor) {
-    mlc_apply_unary_inplace(tensor, mcl_sigmoid_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_unary_inplace(tensor, mcl_sigmoid_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }
 
 /*
  * Applies the ReLU activation function to the input tensor in-place
  */
 mlc_status mlc_relu_(mlc_tensor* tensor) {
-    mlc_apply_unary_inplace(tensor, mcl_relu_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_unary_inplace(tensor, mcl_relu_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }
 
 /*
  * Applies the ERF-based GELU activation function to the input tensor in-place
  */
 mlc_status mlc_gelu_(mlc_tensor* tensor) {
-    mlc_apply_unary_inplace(tensor, mcl_gelu_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_unary_inplace(tensor, mcl_gelu_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }

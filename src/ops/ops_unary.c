@@ -1,5 +1,7 @@
+#include <math.h>
+
 #include "kernel.h"
-#include "math.h"
+#include "mlc/error.h"
 #include "mlc/ops.h"
 #include "mlc/tensor.h"
 
@@ -20,10 +22,16 @@ bool mlc_check_fastpath_unary(const mlc_tensor* a) {
 mlc_tensor* mlc_apply_unary(const mlc_tensor* a, mlc_unary_row_fn fn) {
     MLC_CHECK(a != NULL, "Input tensor is NULL");
     MLC_CHECK(fn != NULL, "Function pointer is NULL");
+    MLC_CHECK(a->dtype == MLC_F32,
+              "Unary operation only supports float32 tensors");
 
     mlc_tensor* out = mlc_empty(a->shape, a->ndim, a->dtype);
     if (out == NULL) {
         return NULL;
+    }
+
+    if (mlc_tensor_numel(out) == 0) {
+        return out;
     }
 
     if (mlc_check_fastpath_unary(a)) {
@@ -73,6 +81,18 @@ mlc_tensor* mlc_apply_unary(const mlc_tensor* a, mlc_unary_row_fn fn) {
 mlc_tensor* mlc_apply_unary_inplace(mlc_tensor* a, mlc_unary_row_fn fn) {
     MLC_CHECK(a != NULL, "Input tensor is NULL");
     MLC_CHECK(fn != NULL, "Function pointer is NULL");
+    MLC_CHECK(a->dtype == MLC_F32,
+              "Unary operation only supports float32 tensors");
+
+    for (int64_t i = 0; i < a->ndim; ++i) {
+        MLC_CHECK(a->strides[i] != 0 || a->shape[i] <= 1,
+                  "In-place operation requires the tensor to have no "
+                  "stride-0 dimensions with size > 1");
+    }
+
+    if (mlc_tensor_numel(a) == 0) {
+        return a;
+    }
 
     if (mlc_check_fastpath_unary(a)) {
         fn((const float*)a->data->data + a->offset, 1,
@@ -203,38 +223,38 @@ mlc_tensor* mlc_sqrt(const mlc_tensor* tensor) {
  * Applies the negation operation to the input tensor in-place
  */
 mlc_status mlc_neg_(mlc_tensor* tensor) {
-    mlc_apply_unary_inplace(tensor, mcl_neg_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_unary_inplace(tensor, mcl_neg_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }
 
 /*
  * Applies the absolute value operation to the input tensor in-place
  */
 mlc_status mlc_abs_(mlc_tensor* tensor) {
-    mlc_apply_unary_inplace(tensor, mcl_abs_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_unary_inplace(tensor, mcl_abs_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }
 
 /*
  * Applies the exponential operation to the input tensor in-place
  */
 mlc_status mlc_exp_(mlc_tensor* tensor) {
-    mlc_apply_unary_inplace(tensor, mcl_exp_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_unary_inplace(tensor, mcl_exp_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }
 
 /*
  * Applies the logarithm operation to the input tensor in-place
  */
 mlc_status mlc_log_(mlc_tensor* tensor) {
-    mlc_apply_unary_inplace(tensor, mcl_log_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_unary_inplace(tensor, mcl_log_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }
 
 /*
  * Applies the square root operation to the input tensor in-place
  */
 mlc_status mlc_sqrt_(mlc_tensor* tensor) {
-    mlc_apply_unary_inplace(tensor, mcl_sqrt_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_unary_inplace(tensor, mcl_sqrt_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }

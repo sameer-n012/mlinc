@@ -1,7 +1,8 @@
+#include <math.h>
 #include <stdbool.h>
 
 #include "kernel.h"
-#include "math.h"
+#include "mlc/error.h"
 #include "mlc/ops.h"
 #include "mlc/tensor.h"
 
@@ -27,6 +28,9 @@ mlc_tensor* mlc_apply_binary(const mlc_tensor* a, const mlc_tensor* b,
     MLC_CHECK(a != NULL, "Input tensor a is NULL");
     MLC_CHECK(b != NULL, "Input tensor b is NULL");
     MLC_CHECK(fn != NULL, "Function pointer is NULL");
+    MLC_CHECK(a->dtype == b->dtype,
+              "Input tensors must have the same data type");
+    MLC_CHECK(a->dtype == MLC_F32, "Operation only supports float32 tensors");
 
     int64_t out_shape[MLC_MAX_DIMS];
     int64_t out_ndim;
@@ -39,8 +43,8 @@ mlc_tensor* mlc_apply_binary(const mlc_tensor* a, const mlc_tensor* b,
         return NULL;
     }
 
-    mlc_tensor* a_broadcasted = mlc_expand((mlc_tensor*)a, out_shape, out_ndim);
-    mlc_tensor* b_broadcasted = mlc_expand((mlc_tensor*)b, out_shape, out_ndim);
+    mlc_tensor* a_broadcasted = mlc_expand(a, out_shape, out_ndim);
+    mlc_tensor* b_broadcasted = mlc_expand(b, out_shape, out_ndim);
     if (a_broadcasted == NULL || b_broadcasted == NULL) {
         mlc_tensor_free(out);
         mlc_tensor_free(a_broadcasted);
@@ -115,6 +119,9 @@ mlc_tensor* mlc_apply_binary_inplace(mlc_tensor* a, const mlc_tensor* b,
     MLC_CHECK(a != NULL, "Input tensor a is NULL");
     MLC_CHECK(b != NULL, "Input tensor b is NULL");
     MLC_CHECK(fn != NULL, "Function pointer is NULL");
+    MLC_CHECK(a->dtype == b->dtype,
+              "Input tensors must have the same data type");
+    MLC_CHECK(a->dtype == MLC_F32, "Operation only supports float32 tensors");
 
     // If a and b share storage and have different layouts, create a copy of b
     // first
@@ -152,7 +159,7 @@ mlc_tensor* mlc_apply_binary_inplace(mlc_tensor* a, const mlc_tensor* b,
             "shape as the output tensor");
     }
 
-    mlc_tensor* b_broadcasted = mlc_expand((mlc_tensor*)b, out_shape, out_ndim);
+    mlc_tensor* b_broadcasted = mlc_expand(b, out_shape, out_ndim);
     if (b_broadcasted == NULL) {
         mlc_tensor_free(b_to_free);
         return NULL;
@@ -339,54 +346,54 @@ mlc_tensor* mlc_minimum(const mlc_tensor* a, const mlc_tensor* b) {
  * Applies the addition operation to the input tensors in-place on `a`
  */
 mlc_status mlc_add_(mlc_tensor* a, const mlc_tensor* b) {
-    mlc_apply_binary_inplace(a, b, mcl_add_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_binary_inplace(a, b, mcl_add_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }
 
 /*
  * Applies the subtraction operation to the input tensors in-place on `a`
  */
 mlc_status mlc_sub_(mlc_tensor* a, const mlc_tensor* b) {
-    mlc_apply_binary_inplace(a, b, mcl_sub_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_binary_inplace(a, b, mcl_sub_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }
 
 /*
  * Applies the multiplication operation to the input tensors in-place on `a`
  */
 mlc_status mlc_mul_(mlc_tensor* a, const mlc_tensor* b) {
-    mlc_apply_binary_inplace(a, b, mcl_mul_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_binary_inplace(a, b, mcl_mul_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }
 
 /*
  * Applies the division operation to the input tensors in-place on `a`
  */
 mlc_status mlc_div_(mlc_tensor* a, const mlc_tensor* b) {
-    mlc_apply_binary_inplace(a, b, mcl_div_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_binary_inplace(a, b, mcl_div_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }
 
 /*
  * Applies the power operation to the input tensors in-place on `a`
  */
 mlc_status mlc_pow_(mlc_tensor* a, const mlc_tensor* b) {
-    mlc_apply_binary_inplace(a, b, mcl_pow_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_binary_inplace(a, b, mcl_pow_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }
 
 /*
  * Applies the maximum operation to the input tensors in-place on `a`
  */
 mlc_status mlc_maximum_(mlc_tensor* a, const mlc_tensor* b) {
-    mlc_apply_binary_inplace(a, b, mcl_maximum_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_binary_inplace(a, b, mcl_maximum_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }
 
 /*
  * Applies the minimum operation to the input tensors in-place on `a`
  */
 mlc_status mlc_minimum_(mlc_tensor* a, const mlc_tensor* b) {
-    mlc_apply_binary_inplace(a, b, mcl_minimum_row_f32);
-    return MLC_SUCCESS;
+    mlc_tensor* t = mlc_apply_binary_inplace(a, b, mcl_minimum_row_f32);
+    return t == NULL ? MLC_ERROR_OUT_OF_MEMORY : MLC_SUCCESS;
 }
