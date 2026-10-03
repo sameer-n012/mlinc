@@ -44,4 +44,24 @@ mlc_status mlc_pow_(mlc_tensor* a, const mlc_tensor* b);
 mlc_status mlc_maximum_(mlc_tensor* a, const mlc_tensor* b);
 mlc_status mlc_minimum_(mlc_tensor* a, const mlc_tensor* b);
 
+// Reduction Ops (Single dimension)
+mlc_tensor* mlc_sum(const mlc_tensor* a, int64_t dim, bool keepdim);
+mlc_tensor* mlc_prod(const mlc_tensor* a, int64_t dim, bool keepdim);
+mlc_tensor* mlc_mean(const mlc_tensor* a, int64_t dim, bool keepdim);
+mlc_tensor* mlc_median(const mlc_tensor* a, int64_t dim, bool keepdim);
+mlc_tensor* mlc_max(const mlc_tensor* a, int64_t dim, bool keepdim);
+mlc_tensor* mlc_min(const mlc_tensor* a, int64_t dim, bool keepdim);
+int64_t* mlc_argmax(const mlc_tensor* a, int64_t dim, bool keepdim);
+int64_t* mlc_argmin(const mlc_tensor* a, int64_t dim, bool keepdim);
+
+// Reduction Ops (Multiple dimensions)
+mlc_tensor* mlc_sum_(const mlc_tensor* a, const int64_t* dims, int64_t ndims, bool keepdim);
+mlc_tensor* mlc_prod_(const mlc_tensor* a, const int64_t* dims, int64_t ndims, bool keepdim);
+mlc_tensor* mlc_mean_(const mlc_tensor* a, const int64_t* dims, int64_t ndims, bool keepdim);
+mlc_tensor* mlc_median_(const mlc_tensor* a, const int64_t* dims, int64_t ndims, bool keepdim);
+mlc_tensor* mlc_max_(const mlc_tensor* a, const int64_t* dims, int64_t ndims, bool keepdim);
+mlc_tensor* mlc_min_(const mlc_tensor* a, const int64_t* dims, int64_t ndims, bool keepdim);
+mlc_tensor* mlc_argmax_(const mlc_tensor* a, const int64_t* dims, int64_t ndims, bool keepdim);
+mlc_tensor* mlc_argmin_(const mlc_tensor* a, const int64_t* dims, int64_t ndims, bool keepdim);
+
 #endif
