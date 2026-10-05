@@ -22,6 +22,7 @@ mlc_tensor* mlc_apply_binary(const mlc_tensor* a, const mlc_tensor* b,
 mlc_tensor* mlc_apply_binary_inplace(mlc_tensor* a, const mlc_tensor* b,
     mlc_binary_row_fn fn);
 
+// Defined in reductions.c
 mlc_tensor* mlc_apply_reduction(const mlc_tensor* a, const int64_t* dims,
     const int64_t ndims, mlc_reduction_row_fn fn);
 mlc_tensor* mlc_apply_reduction_kd(const mlc_tensor* a, const int64_t* dims,
