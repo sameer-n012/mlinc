@@ -289,3 +289,54 @@ MLC_TEST(sum_of_one_million_values_is_accurate) {
     mlc_tensor_free(r);
     mlc_tensor_free(m);
 }
+
+/* An empty dims list means "reduce nothing" (NumPy's axis=(), decided
+ * 2026-10-06): the result is a new contiguous copy with the input's shape and
+ * values. PyTorch differs (dim=[] reduces all dims). Checked on inputs that a
+ * raw storage copy gets wrong: a slice (offset 3), a transposed view, and an
+ * expanded view (6 floats of storage, 6000 elements). */
+MLC_TEST(empty_dims_list_is_identity) {
+    mlc_tensor* x = mlc_arange(0, 6, 1, MLC_F32);
+    mlc_tensor* m = mlc_view(x, (int64_t[]){2, 3}, 2);
+    mlc_tensor* col = mlc_view(x, (int64_t[]){6, 1}, 2);
+    mlc_tensor* inputs[3] = {mlc_slice(m, 0, 1, 2, 1), mlc_transpose(m, 0, 1),
+                             mlc_expand(col, (int64_t[]){6, 1000}, 2)};
+    const char* input_names[3] = {"slice", "transpose", "expand"};
+
+    for (int i = 0; i < 3; ++i) {
+        mlc_tensor* in = inputs[i];
+        const int64_t n = mlc_tensor_numel(in);
+        float* expected = tc_gather_f32(in);
+        for (size_t j = 0; j < N_MULTI; ++j) {
+            for (int keep = 0; keep < 2; ++keep) {
+                mlc_tensor* r = MULTI[j].fn(in, NULL, 0, keep == 1);
+                if (!tc_check_shape(r, in->shape, in->ndim)) {
+                    mlc_test_fail(__FILE__, __LINE__, "%s_dims(%s, []): shape",
+                                  MULTI[j].name, input_names[i]);
+                    mlc_tensor_free(r);
+                    continue;
+                }
+                if (r->data == in->data || !mlc_is_contiguous(r)) {
+                    mlc_test_fail(__FILE__, __LINE__,
+                                  "%s_dims(%s, []): result must be a new "
+                                  "contiguous tensor",
+                                  MULTI[j].name, input_names[i]);
+                }
+                float* got = tc_gather_f32(r);
+                (void)mlc_test_check_allclose_f32(
+                    __FILE__, __LINE__, MULTI[j].name, input_names[i], got,
+                    expected, (size_t)n, 0.0, 0.0);
+                free(got);
+                mlc_tensor_free(r);
+            }
+        }
+        free(expected);
+    }
+
+    for (int i = 0; i < 3; ++i) {
+        mlc_tensor_free(inputs[i]);
+    }
+    mlc_tensor_free(col);
+    mlc_tensor_free(m);
+    mlc_tensor_free(x);
+}

@@ -110,7 +110,7 @@ mlc_tensor* mlc_apply_reduction(const mlc_tensor* a, const int64_t* dims,
     mlc_tensor* out = mlc_zeros(reduced_shape, out_ndim, MLC_F32);
     if (out == NULL) return NULL;
 
-    if (mlc_tensor_numel(a) == 0) {
+    if (mlc_tensor_numel(out) == 0) {
         return out;
     }
 
@@ -151,15 +151,17 @@ mlc_tensor* mlc_apply_reduction(const mlc_tensor* a, const int64_t* dims,
             }
         }
     } else {
-        mlc_tensor* current = mlc_clone((mlc_tensor*)a);
-        if (current == NULL) {
+        if (ndims == 0) {
             mlc_tensor_free(out);
-            return NULL;
+            return mlc_contiguous((mlc_tensor*)a);
         }
+        mlc_tensor* current = (mlc_tensor*)a;
         for (int64_t i = 0; i < ndims; ++i) {
             mlc_tensor* next_cur =
                 mlc_apply_reduction(current, &normalized_dims[i], 1, fn);
-            mlc_tensor_free(current);
+            if (current != a) {
+                mlc_tensor_free(current);
+            }
             if (next_cur == NULL) {
                 mlc_tensor_free(out);
                 return NULL;
@@ -168,7 +170,9 @@ mlc_tensor* mlc_apply_reduction(const mlc_tensor* a, const int64_t* dims,
         }
         memcpy(out->data->data, current->data->data,
                int64_to_size(mlc_tensor_numel(out)) * sizeof(float));
-        mlc_tensor_free(current);
+        if (current != a) {
+            mlc_tensor_free(current);
+        }
     }
 
     return out;
@@ -202,7 +206,7 @@ static mlc_tensor* mlc_apply_index_reduction(const mlc_tensor* a, int64_t dim,
     mlc_tensor* out = mlc_zeros(reduced_shape, out_ndim, MLC_I64);
     if (out == NULL) return NULL;
 
-    if (mlc_tensor_numel(a) == 0) {
+    if (mlc_tensor_numel(out) == 0) {
         return out;
     }
 
@@ -295,7 +299,7 @@ static float mlc_prod_row_f32(const float* a, int64_t sa, int64_t n) {
  * Internal mean row-kernel for float32 tensors.
  */
 static float mlc_mean_row_f32(const float* a, int64_t sa, int64_t n) {
-    if (n <= 0) return 0.0f;
+    if (n <= 0) return NAN;
     return mlc_pairwise_sum(a, sa, n) / (float)n;
 }
 
@@ -304,7 +308,12 @@ static float mlc_mean_row_f32(const float* a, int64_t sa, int64_t n) {
  * temporary tensor to store the values, sorts them, and computes the median.
  */
 static float mlc_median_row_f32(const float* a, int64_t sa, int64_t n) {
-    if (n <= 0) return 0.0f;
+    MLC_CHECK(n > 0, "Reduction over a dimension of size 0 is not supported");
+    for (int64_t i = 0; i < n; ++i) {
+        if (isnan(a[i * sa])) {
+            return NAN;
+        }
+    }
     float* temp = (float*)malloc(int64_to_size(n) * sizeof(float));
     MLC_CHECK(temp != NULL, "Memory allocation failed for median computation");
     for (int64_t i = 0; i < n; ++i) {
