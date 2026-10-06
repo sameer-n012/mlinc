@@ -63,9 +63,9 @@ typedef struct {
 } multi_case;
 
 static const multi_case MULTI[] = {
-    {"sum", mlc_sum_, 1e-5, 1e-5},   {"prod", mlc_prod_, 1e-6, 1e-5},
-    {"mean", mlc_mean_, 1e-6, 1e-5}, {"max", mlc_max_, 0.0, 0.0},
-    {"min", mlc_min_, 0.0, 0.0},
+    {"sum", mlc_sum_dims, 1e-5, 1e-5},   {"prod", mlc_prod_dims, 1e-6, 1e-5},
+    {"mean", mlc_mean_dims, 1e-6, 1e-5}, {"max", mlc_max_dims, 0.0, 0.0},
+    {"min", mlc_min_dims, 0.0, 0.0},
 };
 #define N_MULTI (sizeof MULTI / sizeof MULTI[0])
 
@@ -213,7 +213,7 @@ MLC_TEST(multi_dim_api_with_one_dim) {
     golden_file gf;
     MLC_ASSERT(load(&gf));
     mlc_tensor* x = tc_from_golden(&gf, "x");
-    mlc_tensor* r = mlc_sum_(x, (int64_t[]){1}, 1, false);
+    mlc_tensor* r = mlc_sum_dims(x, (int64_t[]){1}, 1, false);
     MLC_ASSERT(tc_check_golden(r, &gf, "sum_d1", 1e-5, 1e-5));
     mlc_tensor_free(r);
     mlc_tensor_free(x);

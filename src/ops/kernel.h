@@ -12,6 +12,8 @@ typedef void (*mlc_unary_row_fn)(const float* a, int64_t sa, float* out,
     int64_t so, int64_t n);
 typedef float (*mlc_reduction_row_fn)(const float* a, int64_t sa,
     int64_t n);
+typedef int64_t (*mlc_reduction_index_row_fn)(const float* a, int64_t sa,
+                                              int64_t n);
 
 
 // Defined in ops_unary.c and ops_binary.c
@@ -24,8 +26,6 @@ mlc_tensor* mlc_apply_binary_inplace(mlc_tensor* a, const mlc_tensor* b,
 
 // Defined in reductions.c
 mlc_tensor* mlc_apply_reduction(const mlc_tensor* a, const int64_t* dims,
-    const int64_t ndims, mlc_reduction_row_fn fn);
-mlc_tensor* mlc_apply_reduction_kd(const mlc_tensor* a, const int64_t* dims,
     const int64_t ndims, mlc_reduction_row_fn fn);
 
 bool mlc_check_fastpath_unary(const mlc_tensor* a);
