@@ -22,6 +22,18 @@ static int compare_floats(const void* p1, const void* p2) {
 }
 
 /*
+ * Internal function to safely convert an int64_t value to size_t. If the
+ * value is negative, it returns 0. This is used to avoid issues with negative
+ * sizes when calculating the total number of bytes for a tensor.
+ */
+static size_t int64_to_size(int64_t value) {
+    if (value < 0) {
+        return 0;
+    }
+    return (size_t)value;
+}
+
+/*
  * Pairwise summation helper for float32 arrays. This method reduces numerical
  * error.
  */
@@ -217,16 +229,16 @@ static float mlc_mean_row_f32(const float* a, int64_t sa, int64_t n) {
 
 /*
  * Internal median row-kernel for float32 tensors. This function allocates a
- * temporary array to store the values, sorts them, and computes the median.
+ * temporary tensor to store the values, sorts them, and computes the median.
  */
 static float mlc_median_row_f32(const float* a, int64_t sa, int64_t n) {
     if (n <= 0) return 0.0f;
-    float* temp = (float*)malloc((size_t)n * sizeof(float));
+    float* temp = (float*)malloc(int64_to_size(n) * sizeof(float));
     if (temp == NULL) return 0.0f;
     for (int64_t i = 0; i < n; ++i) {
         temp[i] = a[i * sa];
     }
-    qsort(temp, (size_t)n, sizeof(float), compare_floats);
+    qsort(temp, int64_to_size(n), sizeof(float), compare_floats);
     float median = 0.0f;
     if (n % 2 == 1) {
         median = temp[n / 2];

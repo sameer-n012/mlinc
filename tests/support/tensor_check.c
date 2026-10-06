@@ -65,8 +65,21 @@ int tc_check_shape(const mlc_tensor* t, const int64_t* shape, int64_t ndim) {
 int tc_check_golden(const mlc_tensor* t, const golden_file* gf,
                     const char* name, double atol, double rtol) {
     const golden_tensor* g = golden_require(gf, name, GOLDEN_F32);
-    if (!tc_check_shape(t, g->shape, (int64_t)g->ndim)) {
+    return tc_check_golden_values(t, gf, name, g->shape, (int64_t)g->ndim, atol,
+                                  rtol);
+}
+
+int tc_check_golden_values(const mlc_tensor* t, const golden_file* gf,
+                           const char* name, const int64_t* shape, int64_t ndim,
+                           double atol, double rtol) {
+    const golden_tensor* g = golden_require(gf, name, GOLDEN_F32);
+    if (!tc_check_shape(t, shape, ndim)) {
         mlc_test_fail(__FILE__, __LINE__, "case '%s': wrong shape", name);
+        return 0;
+    }
+    if (t->dtype != MLC_F32) {
+        mlc_test_fail(__FILE__, __LINE__, "case '%s': dtype %s, expected %s",
+                      name, mlc_dtype_str(t->dtype), mlc_dtype_str(MLC_F32));
         return 0;
     }
     float* values = tc_gather_f32(t);
@@ -75,4 +88,49 @@ int tc_check_golden(const mlc_tensor* t, const golden_file* gf,
         (size_t)g->numel, atol, rtol);
     free(values);
     return ok;
+}
+
+int64_t tc_at_i64(const mlc_tensor* t, const int64_t* idx) {
+    int64_t pos = t->offset;
+    for (int64_t d = 0; d < t->ndim; ++d) {
+        pos += idx[d] * t->strides[d];
+    }
+    return ((const int64_t*)t->data->data)[pos];
+}
+
+int tc_check_golden_i64(const mlc_tensor* t, const golden_file* gf,
+                        const char* name, const int64_t* shape, int64_t ndim) {
+    const golden_tensor* g = golden_require(gf, name, GOLDEN_I64);
+    if (shape == NULL) {
+        shape = g->shape;
+        ndim = (int64_t)g->ndim;
+    }
+    if (!tc_check_shape(t, shape, ndim)) {
+        mlc_test_fail(__FILE__, __LINE__, "case '%s': wrong shape", name);
+        return 0;
+    }
+    if (t->dtype != MLC_I64) {
+        mlc_test_fail(__FILE__, __LINE__, "case '%s': dtype %s, expected %s",
+                      name, mlc_dtype_str(t->dtype), mlc_dtype_str(MLC_I64));
+        return 0;
+    }
+    const int64_t* expected = (const int64_t*)g->data;
+    int64_t idx[MLC_MAX_DIMS] = {0};
+    for (int64_t i = 0; i < g->numel; ++i) {
+        const int64_t got = tc_at_i64(t, idx);
+        if (got != expected[i]) {
+            mlc_test_fail(__FILE__, __LINE__,
+                          "case '%s': element %lld is %lld, expected %lld",
+                          name, (long long)i, (long long)got,
+                          (long long)expected[i]);
+            return 0;
+        }
+        for (int64_t d = t->ndim - 1; d >= 0; --d) {
+            if (++idx[d] < t->shape[d]) {
+                break;
+            }
+            idx[d] = 0;
+        }
+    }
+    return 1;
 }

@@ -30,9 +30,24 @@ mlc_tensor* tc_from_golden(const golden_file* gf, const char* name);
 /* Checks that `t` is not NULL and has exactly this shape. */
 int tc_check_shape(const mlc_tensor* t, const int64_t* shape, int64_t ndim);
 
-/* Checks shape and values of `t` against the golden entry `name`. Tolerances
- * follow numpy.isclose (see mlc_test.h). */
+/* Checks dtype (F32), shape, and values of `t` against the golden entry `name`.
+ * Tolerances follow numpy.isclose (see mlc_test.h). */
 int tc_check_golden(const mlc_tensor* t, const golden_file* gf,
                     const char* name, double atol, double rtol);
+
+/* Same as tc_check_golden, but compares only the values (in row-major order)
+ * and checks the shape against `shape` instead of the golden shape. Use it
+ * when the golden entry has a different but equivalent shape (keepdim). */
+int tc_check_golden_values(const mlc_tensor* t, const golden_file* gf,
+                           const char* name, const int64_t* shape, int64_t ndim,
+                           double atol, double rtol);
+
+/* Returns the i64 element of `t` at the multi-index `idx`. */
+int64_t tc_at_i64(const mlc_tensor* t, const int64_t* idx);
+
+/* Checks dtype (I64), shape, and exact values of `t` against the golden i64
+ * entry `name`. If `shape` is not NULL, it replaces the golden shape. */
+int tc_check_golden_i64(const mlc_tensor* t, const golden_file* gf,
+                        const char* name, const int64_t* shape, int64_t ndim);
 
 #endif /* MLC_TESTS_TENSOR_CHECK_H */
